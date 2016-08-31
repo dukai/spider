@@ -7,8 +7,15 @@ nightmare
   .click('#search-2014 .form button')
   .wait('#J_goodsList')
   .evaluate(function () {
-		return window.jQuery('.gl-item');
-		return document.querySelectorAll('.gl-item');
+    var result = [];
+		window.jQuery('.gl-item').each(index => {
+     var title = window.jQuery(this).find('.p-name>a').attr('title');
+     var price = window.jQuery(this).find('.p-price>strong').data('price');
+     result.push({
+      title, price
+     });
+     return result;
+    })
   })
   .end()
   .then(function (result) {
