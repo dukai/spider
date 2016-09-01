@@ -22,7 +22,11 @@ http.get('http://dc.3.cn/category/get', res => {
 
 
     var data = JSON.parse(html);
-    console.log(data);
+    for(var item of data){
+      for(var s of item.s){
+        
+      }
+    }
   })
 
 }).on('error', e => {
