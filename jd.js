@@ -18,7 +18,7 @@ var beginJD = function(){
     try{
         //READ file detect whether need to process from local
         var list = fs.readFileSync(LIST_FILE_NAME, {encoding: 'utf8'});
-        var listPageURLs = JSON.parse(list);
+        listPageURLs = JSON.parse(list);
         var currentURL = fs.readFileSync(CURRENT_FILE_NAME, {encoding: "utf8"});
         parseOne(currentURL);
     }catch(ex){
