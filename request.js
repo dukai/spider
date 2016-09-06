@@ -3,7 +3,7 @@ const http = require('http');
 
 
 var options = {
-  hostname: '30.96.76.170',
+  hostname: 'localhost',
   port: 8090,
   path: '/add',
   method: 'POST',
@@ -18,7 +18,6 @@ module.exports = function(data){
   return new Promise(function(resolve, reject){
 
     var postData = JSON.stringify(data);
-    console.log(postData);
 
     options.headers['Content-Length'] = Buffer.byteLength(postData);
 
