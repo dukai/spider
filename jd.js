@@ -1,7 +1,7 @@
 "use strict"
 var Nightmare = require('nightmare');
 var nightmare = Nightmare({ show: true, webPreferences: {
-   images: false 
+   // images: false 
 }})
 var fs = require('fs');
 var path = require('path');
