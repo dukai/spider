@@ -23,35 +23,52 @@ const conn = mysql.createConnection({
   database: 'luluo_db'
 });
 conn.connect();
-var result = new Promise(function(resolve, reject){
-    conn.query("select * from goods limit 10", (err, rows, fields) => {
-        if(err){
-            reject(err);
-        }else{
-            resolve(rows);
-        }
-    });
-})
 
-result.then(rows => {
-    rows.forEach(row => {
-        // console.log(nodejieba.extract(row.title, TOP_N));
-        var result = segment.doSegment(row.title, {
-            stripStopword: true,
-            simple: true,
-            stripPunctuation: true
+const TAKE_COUNT = 100;
+
+var getDataPage = function(start){
+    return new Promise(function(resolve, reject){
+        conn.query(`select * from goods limit ${start}, ${TAKE_COUNT}`, (err, rows, fields) => {
+            if(err){
+                reject(err);
+            }else{
+                resolve(rows);
+            }
         });
-        console.log(row.title, result);
-        for(let val of result){
-            var md5 = crypto.createHash('md5');
-            md5.update(val);
-            var key = md5.digest('hex');
-            console.log(key);
-            client.sadd('w:' + key, row.id, (err) => {
-                if(err){
-                    console.log(err);
-                }
-            });
-        }
     })
-})
+}
+
+var pointer = 0;
+
+
+
+var readPage = function(){
+
+    getDataPage(pointer * TAKE_COUNT).then(rows => {
+        rows.forEach(row => {
+            // console.log(nodejieba.extract(row.title, TOP_N));
+            var result = segment.doSegment(row.title, {
+                stripStopword: true,
+                simple: true,
+                stripPunctuation: true
+            });
+            console.log(row.title, result);
+            for(let val of result){
+                var md5 = crypto.createHash('md5');
+                md5.update(val);
+                var key = md5.digest('hex');
+                console.log(key);
+                client.sadd('w:' + key, row.id, (err) => {
+                    if(err){
+                        console.log(err);
+                    }
+                });
+            }
+        });
+
+        pointer++;
+        readPage();
+    })
+}
+
+readPage();
