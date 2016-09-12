@@ -1,8 +1,11 @@
 "use strict"
 var Nightmare = require('nightmare');
-var nightmare = Nightmare({ show: true, webPreferences: {
-   images: false 
-}})
+var nightmare = Nightmare({ 
+    show: true, 
+    webPreferences: {
+        //images: false 
+    }
+})
 var fs = require('fs');
 var path = require('path');
 var http = require('http');
@@ -73,9 +76,10 @@ var beginParse = function(){
 var parseOne = function(url){
     console.log('Start Request: ', url);
     nightmare.goto(url).evaluate(() => {
-        var prices = document.querySelectorAll('.gl-item .J_price i');
-        var links = document.querySelectorAll('.gl-item .p-name a');
-        var titles = document.querySelectorAll('.gl-item .p-name a em');
+        var prices = document.querySelectorAll('#plist .gl-item .J_price i');
+        var links = document.querySelectorAll('#plist .gl-item .p-name>a');
+        var titles = document.querySelectorAll('#plist .gl-item .p-name>a em');
+        console.log(prices, links, titles);
 
         var result = [];
 
@@ -90,6 +94,8 @@ var parseOne = function(url){
         return result;
     }).then(result => {
         console.log(`==== Request (${url}) Done (${result.length}) ====`);
+
+        console.log(result);
         httpRequest({result});
 
         // nightmare.evaluate(() => {
@@ -126,6 +132,6 @@ var parseOne = function(url){
 }
 
 // parseOne('http://list.jd.com/list.html?cat=1319,1523,7052&ev=4975_86120&page=1&go=0&trans=1&JL=6_0_0#J_main')
-// parseOne('http://list.jd.com/list.html?cat=1713,13613&page=26&go=0&trans=1&JL=6_0_0');
+parseOne('http://list.jd.com/list.html?cat=9987,653,655&page=79&trans=1&JL=6_0_0#J_main');
 
-beginJD();
+// beginJD();
