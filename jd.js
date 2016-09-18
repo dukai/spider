@@ -64,6 +64,7 @@ var getURLList = function(){
 var beginParse = function(){
     if(listPageURLs.length == 0){
         console.log('===== ALL DONE =====');
+        nightmare.end();
         return;
     }
     var url = listPageURLs.pop();
@@ -87,7 +88,7 @@ var parseOne = function(url){
             result.push({
                 price: prices[i].innerHTML,
                 title: titles[i].innerHTML,
-                href: links[i].href
+                url: links[i].href
             })
         }
 
@@ -96,7 +97,7 @@ var parseOne = function(url){
         console.log(`==== Request (${url}) Done (${result.length}) ====`);
 
         console.log(result);
-        httpRequest({result});
+        httpRequest({result}).then(r => {}, e => console.log(e));
 
         // nightmare.evaluate(() => {
         //     return document.title;
@@ -132,6 +133,7 @@ var parseOne = function(url){
 }
 
 // parseOne('http://list.jd.com/list.html?cat=1319,1523,7052&ev=4975_86120&page=1&go=0&trans=1&JL=6_0_0#J_main')
-parseOne('http://list.jd.com/list.html?cat=9987,653,655&page=79&trans=1&JL=6_0_0#J_main');
+// parseOne('http://list.jd.com/list.html?cat=9987,653,655&page=80&trans=1&JL=6_0_0#J_main');
+parseOne('http://coll.jd.com/list.html?sub=4520&page=1&JL=6_0_0')
 
 // beginJD();

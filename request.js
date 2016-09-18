@@ -3,12 +3,13 @@ const http = require('http');
 
 
 var options = {
-  hostname: 'localhost',
-  port: 8090,
-  path: '/add',
+  hostname: 'api.90jian.com',
+  port: 80,
+  path: '/task/upload',
   method: 'POST',
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Accept': 'application/vnd.90jian.v1+json'
   }
 };
 
