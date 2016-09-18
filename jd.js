@@ -64,7 +64,7 @@ var getURLList = function(){
 var beginParse = function(){
     if(listPageURLs.length == 0){
         console.log('===== ALL DONE =====');
-        nightmare.end();
+        nightmare.end().then(r=> console.log(r));
         return;
     }
     var url = listPageURLs.pop();
@@ -134,6 +134,6 @@ var parseOne = function(url){
 
 // parseOne('http://list.jd.com/list.html?cat=1319,1523,7052&ev=4975_86120&page=1&go=0&trans=1&JL=6_0_0#J_main')
 // parseOne('http://list.jd.com/list.html?cat=9987,653,655&page=80&trans=1&JL=6_0_0#J_main');
-parseOne('http://coll.jd.com/list.html?sub=4520&page=1&JL=6_0_0')
+parseOne('http://list.jd.com/list.html?cat=737,752,754')
 
 // beginJD();
